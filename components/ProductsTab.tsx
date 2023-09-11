@@ -1,25 +1,20 @@
-import React, { useState, useEffect} from 'react';
-import {
-    View,
-    Text
-} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, Text, FlatList} from 'react-native';
+import products from '../assets/products.json';
+import ProductItem from './ProductItem';
 
 function ProductsTab(): JSX.Element {
-    const [products, setProducts] = useState([]);
-
-    useEffect(() => {
-      fetch("http://34.31.235.63:8000/btriangle/api/product/").then((response)=> {
-        console.log(response);
-      }).catch(error => {
-        console.log(error);
-      })
-    }, [])
-    
-    return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text>Products Tabs</Text>
-        </View>
-    )
+  return (
+    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <FlatList
+        contentContainerStyle={{padding: 8, paddingRight:16}}
+        data={products.products}
+        ItemSeparatorComponent={() => <View style={{height: 8}} />}
+        renderItem={item => ProductItem(item.item)}
+        keyExtractor={item => item.id + ''}
+      />
+    </View>
+  );
 }
 
 export default ProductsTab;
